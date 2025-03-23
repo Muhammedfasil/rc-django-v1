@@ -101,7 +101,7 @@ class CommonResetTables(View):
             messages.error(request,"Some Error Occured. Please Try Again")
             return HttpResponseRedirect(reverse('rc_reset_tables'))
 
-from celery.result import AsyncResult
+
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from rc_config.celery import app
@@ -109,6 +109,7 @@ from rc_config.celery import app
 @method_decorator(login_required, name='dispatch')
 class CeleryJobAsyncResult(View):  
     def get(self,request,*args,**kwargs):
+        from celery.result import AsyncResult
         if request.is_ajax():
             if 'task_ids[]' in request.GET and request.GET['task_ids[]']:
                 task_ids = request.GET.getlist('task_ids[]')
