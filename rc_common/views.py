@@ -104,12 +104,13 @@ class CommonResetTables(View):
 
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
-from rc_config.celery import app
+
 
 @method_decorator(login_required, name='dispatch')
 class CeleryJobAsyncResult(View):  
     def get(self,request,*args,**kwargs):
         from celery.result import AsyncResult
+        from rc_config.celery import app
         if request.is_ajax():
             if 'task_ids[]' in request.GET and request.GET['task_ids[]']:
                 task_ids = request.GET.getlist('task_ids[]')
